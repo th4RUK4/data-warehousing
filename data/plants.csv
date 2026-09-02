@@ -1,0 +1,4 @@
+plant_id,plant_name,city,district,region,plant_manager,plant_status
+PL001,Central Manufacturing Plant,Kandy,Kandy,Central,Manager A,Active
+PL002,Western Manufacturing Plant,Colombo,Colombo,Western,Manager B,Active
+PL003,North Western Manufacturing Plant,Kurunegala,Kurunegala,North Western,Manager C,Active

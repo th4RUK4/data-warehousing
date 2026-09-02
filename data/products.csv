@@ -1,0 +1,9 @@
+product_id,product_name,product_category,product_type,unit_of_measure,standard_cost,product_status
+P001,Industrial Motor,Industrial Electronics,Motor,Unit,250.00,Active
+P002,Control Panel,Industrial Electronics,Panel,Unit,180.00,Active
+P003,Steel Component,Mechanical,Component,Unit,95.00,Active
+P004,Hydraulic Pump,Mechanical,Pump,Unit,320.00,Active
+P005,Industrial Sensor,Electronics,Sensor,Unit,75.00,Active
+P006,Power Controller,Electronics,Controller,Unit,210.00,Active
+P007,Industrial Gearbox,Mechanical,Gearbox,Unit,450.00,Active
+

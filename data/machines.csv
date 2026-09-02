@@ -1,0 +1,7 @@
+machine_id,machine_name,machine_type,machine_model,production_line,plant_id,machine_status
+M001,CNC Machine 01,CNC,CNC-X100,LINE-A,PL001,Active
+M002,Assembly Machine 01,Assembly,ASM-A200,LINE-B,PL001,Active
+M003,Welding Machine 01,Welding,WLD-W300,LINE-C,PL002,Active
+M004,Hydraulic Machine 01,Hydraulic,HYD-H400,LINE-A,PL002,Active
+M005,Sensor Assembly 01,Assembly,SEN-S500,LINE-D,PL003,Active
+M006,Controller Machine 01,Electronics,CTL-C600,LINE-E,PL003,Active

@@ -1,0 +1,7 @@
+employee_id,employee_name,department,job_role,employment_type,employee_status
+E001,Kasun Perera,Production,Operator,Full-Time,Active
+E002,Nimal Silva,Production,Supervisor,Full-Time,Active
+E003,Amal Fernando,Quality,Inspector,Full-Time,Active
+E004,Saman Kumara,Production,Operator,Full-Time,Active
+E005,Tharindu Jayasinghe,Maintenance,Technician,Full-Time,Active
+E006,Chamara Bandara,Production,Operator,Contract,Active
