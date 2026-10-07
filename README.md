@@ -247,7 +247,7 @@ analytics/data_quality_checks.sql
 ├── .github/workflows/          Automated platform validation
 ├── analytics/                  KPI, SCD and data-quality SQL
 ├── dashboard/                  Streamlit analytics application
-├── documentation/              Architecture and modelling documentation
+├── docs/                       Architecture, contracts and project evolution
 ├── etl_pipeline/
 │   ├── config.py               Environment + source contracts
 │   ├── database.py             ETL audit helpers
@@ -264,7 +264,7 @@ analytics/data_quality_checks.sql
 ├── source_data/
 │   ├── run_1/
 │   └── run_2/
-├── submission/                 Academic submission artifacts
+├── legacy/v1/                  Original V1 implementation preserved for history
 ├── tests/                      Unit tests
 ├── warehouse_database/
 │   ├── staging_tables.sql
@@ -552,8 +552,8 @@ The next extensions are intentionally focused on deeper Data Engineering evidenc
 The project keeps its academic warehouse foundations while evolving into a shared engineering portfolio. Original V1 code is preserved in `legacy/v1/`, while supporting BI material remains in:
 
 ```text
-documentation/
-submission/
+docs/
+legacy/v1/
 powerbi_dashboard/
 ```
 
