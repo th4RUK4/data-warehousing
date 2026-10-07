@@ -1,5 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.venv/
 venv/
 .env
-__pycache__/
-*.pyc
-.streamlit/secrets.toml
+.env.*
+!.env.example
+
+# Database backups and local exports
+*.sql.bak
+*.dump
+
+# Power BI temporary/local state
+# Keep final .pbix files versioned as project deliverables.
+~$*.pbix
+*.pbix.tmp
+.pbi/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
