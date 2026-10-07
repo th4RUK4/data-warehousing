@@ -1,38 +1,21 @@
-
 import subprocess
 import sys
 from pathlib import Path
 
-
-# --------------------------------------------------
-# Project paths
-# --------------------------------------------------
-
-BASE_DIR = Path.home() / "manufacturing_dw"
+BASE_DIR = Path(__file__).resolve().parents[1]
 ETL_DIR = BASE_DIR / "etl"
-
-
-# --------------------------------------------------
-# ETL scripts
-# --------------------------------------------------
 
 scripts = [
     "load_staging.py",
     "load_dimensions.py",
-    "load_fact.py"
+    "load_fact.py",
 ]
-
-
-# --------------------------------------------------
-# Run ETL pipeline
-# --------------------------------------------------
 
 print("=" * 60)
 print("MANUFACTURING DATA WAREHOUSE - ETL PIPELINE")
 print("=" * 60)
 
 for script in scripts:
-
     script_path = ETL_DIR / script
 
     print(f"\nRunning: {script}")
@@ -40,19 +23,14 @@ for script in scripts:
 
     result = subprocess.run(
         [sys.executable, str(script_path)],
-        capture_output=False
+        check=False,
     )
 
     if result.returncode != 0:
         print(f"\nETL FAILED: {script}")
-        sys.exit(1)
+        sys.exit(result.returncode)
 
     print(f"Completed: {script}")
-
-
-# --------------------------------------------------
-# Pipeline completed
-# --------------------------------------------------
 
 print("\n" + "=" * 60)
 print("ETL PIPELINE COMPLETED SUCCESSFULLY")
