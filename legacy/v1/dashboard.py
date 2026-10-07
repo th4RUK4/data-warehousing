@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -23,11 +24,11 @@ st.set_page_config(
 def load_data():
 
     conn = psycopg2.connect(
-        host="localhost",
-        port=5432,
-        database="manufacturing_dw",
-        user="postgres",
-        password="postgres123"
+        host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", "5432")),
+        database=os.getenv("DB_NAME", "manufacturing_dw"),
+        user=os.getenv("DB_USER", "postgres"),
+        password=os.getenv("DB_PASSWORD", "postgres")
     )
 
     query = """
