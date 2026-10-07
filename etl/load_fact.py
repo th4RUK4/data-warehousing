@@ -1,62 +1,39 @@
-import psycopg2
-from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-# --------------------------------------------------
-# 1. PostgreSQL connection
-# --------------------------------------------------
+import psycopg2
+from dotenv import load_dotenv
 
-BASE_DIR = Path.home() / "manufacturing_dw"
-
+BASE_DIR = Path(__file__).resolve().parents[1]
 load_dotenv(BASE_DIR / ".env")
 
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST"),
-    "port": int(os.getenv("DB_PORT", 5432)),
-    "database": os.getenv("DB_NAME"),
-    "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD")
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": int(os.getenv("DB_PORT", "5432")),
+    "database": os.getenv("DB_NAME", "manufacturing_dw"),
+    "user": os.getenv("DB_USER", "postgres"),
+    "password": os.getenv("DB_PASSWORD"),
 }
 
-# --------------------------------------------------
-# 2. Connect to PostgreSQL
-# --------------------------------------------------
+if not DB_CONFIG["password"]:
+    raise RuntimeError("DB_PASSWORD is not configured. Create a .env file from .env.example.")
 
 try:
     conn = psycopg2.connect(**DB_CONFIG)
     cursor = conn.cursor()
-
     print("Connected to PostgreSQL successfully.")
-
 except Exception as e:
     print("Database connection failed:")
     print(e)
-    exit(1)
-
+    raise SystemExit(1)
 
 try:
-
-    # --------------------------------------------------
-    # 3. Load Fact Production
-    # --------------------------------------------------
-
     cursor.execute("""
         INSERT INTO fact_production (
-            production_id,
-            date_sk,
-            product_sk,
-            machine_sk,
-            plant_sk,
-            employee_sk,
-            shift_sk,
-            produced_quantity,
-            good_quantity,
-            defective_quantity,
-            production_hours,
-            downtime_hours,
-            material_cost,
-            production_cost
+            production_id, date_sk, product_sk, machine_sk, plant_sk,
+            employee_sk, shift_sk, produced_quantity, good_quantity,
+            defective_quantity, production_hours, downtime_hours,
+            material_cost, production_cost
         )
         SELECT
             s.production_id,
@@ -73,31 +50,24 @@ try:
             s.downtime_hours,
             s.material_cost,
             s.production_cost
-
         FROM stg_production s
-
         JOIN dim_date d
             ON d.full_date = s.production_date
-
         JOIN dim_product pr
             ON pr.product_id = s.product_id
-           AND pr.is_current = TRUE
-
+           AND pr.effective_start_date <= s.production_date
+           AND s.production_date < pr.effective_end_date
         JOIN dim_machine m
             ON m.machine_id = s.machine_id
            AND m.is_current = TRUE
-
         JOIN dim_plant pl
             ON pl.plant_id = s.plant_id
            AND pl.is_current = TRUE
-
         JOIN dim_employee e
             ON e.employee_id = s.employee_id
            AND e.is_current = TRUE
-
         JOIN dim_shift sh
             ON sh.shift_id = s.shift_id
-
         WHERE NOT EXISTS (
             SELECT 1
             FROM fact_production f
@@ -106,30 +76,17 @@ try:
     """)
 
     rows_inserted = cursor.rowcount
-
-    print(f"Fact records inserted: {rows_inserted}")
-
-
-    # --------------------------------------------------
-    # 4. Commit
-    # --------------------------------------------------
-
     conn.commit()
-
+    print(f"Fact records inserted: {rows_inserted}")
     print("\nFact table loading completed successfully.")
 
-
 except Exception as e:
-
     conn.rollback()
-
     print("\nFact table loading failed:")
     print(e)
-
+    raise
 
 finally:
-
     cursor.close()
     conn.close()
-
     print("Database connection closed.")
